@@ -1,0 +1,54 @@
+#~ ======================================================================
+#~ Thomas LEDUC - 26.01.2021
+#~ ======================================================================
+#~ pip install mkdocs
+#~ pip install mkdocstrings
+#~ mkdocs new .
+#~ mkdocs serve
+#~
+#~ pip install mkdocs-bibtex pymdown-extensions
+#~ ======================================================================
+site_name: The t4gpd user manual
+site_author: Thomas LEDUC
+
+theme:
+  name: readthedocs
+  #~ name: mkdocs
+  highlightjs: true
+  hljs_languages:
+    - python
+
+nav:
+    - Home: 'index.md'
+    - 'User Guide':
+        - 'Introduction': 'introduction.md'
+        - 'Reading and writing files': 'io.md'
+        - 'Morphometry': 'morphometry.md'
+        - 'Urban layouts analysis': 'layout.md'
+        - 'Urban fabrics analysis': 'fabrics.md'
+        - 'Urban landscape analysis': 'landscape.md'
+        - 'Urban bioclimatic shape analysis': 'bioclimatic.md'
+    - About:
+        - 'About': 'about.md'
+        #~ - 'License': 'gpl-3.0.md'
+        #~ - 'Release Notes': 'release-notes.md'
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.emoji:
+
+plugins:
+  - search
+  - bibtex:
+      bib_file: 'docs/refs.bib'
+      cite_style: 'pandoc'
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_root_heading: true
+            show_source: true
+      custom_templates: templates
+      watch:
+        - .
