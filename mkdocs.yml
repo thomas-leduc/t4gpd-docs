@@ -21,6 +21,7 @@ nav:
     - 'User Guide':
         - 'Introduction': 'introduction.md'
         - 'Reading and writing files': 'io.md'
+        - 'Deployment of virtual sensors': 'sensors.md'
         - 'Morphometry': 'morphometry.md'
         - 'Urban layouts analysis': 'layout.md'
         - 'Urban fabrics analysis': 'fabrics.md'
