@@ -1,7 +1,8 @@
 # Welcome to *The t4gpd User Manual*
 ```
 By: Thomas Leduc, AAU-CRENAU
-Date: Mar. 2021
+Date: Apr. 2021
+Version: 0.2.0
 ```
 
 **t4gpd** is a set of tools focused on spatial analysis. Developed in Python (v3), it aims to be used for example in the context of a Notebook as a complement to the [GeoPandas](https://geopandas.org/) and [Shapely](https://shapely.readthedocs.io) libraries.
