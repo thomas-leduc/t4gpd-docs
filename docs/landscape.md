@@ -2,6 +2,10 @@
 ## Isovist and isovist field
 ### Indices for star-shaped polygons
 ## Sky Map
+
+> `SkyMap2D(gdf, nRays=180, size=4.0, maxRayLen=100.0, elevationFieldname='HAUTEUR',`
+> `projectionName='Stereographic')`
+
 ```python
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
@@ -41,6 +45,12 @@ plt.savefig('img/skymaps.png')
 ![Sky Maps](img/skymaps.png)
 
 ## Sky and Sun Maps
+
+> `SkyMap2D(gdf, nRays=180, size=4.0, maxRayLen=100.0, elevationFieldname='HAUTEUR',`
+> `projectionName='Stereographic')`
+
+> `STSunMap2D(viewpointsGdf, datetimes, size=4.0, projectionName='Stereographic', tz=None,`
+> `model='pysolar')`
 
 ```python
 from datetime import date, time
