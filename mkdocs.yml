@@ -2,7 +2,6 @@
 #~ Thomas LEDUC - 26.01.2021
 #~ ======================================================================
 #~ pip install mkdocs
-#~ pip install mkdocstrings
 #~ mkdocs new .
 #~ mkdocs serve
 #~
@@ -13,7 +12,6 @@ site_author: Thomas LEDUC
 
 theme:
   name: readthedocs
-  #~ name: mkdocs
   highlightjs: true
   hljs_languages:
     - python
@@ -42,13 +40,4 @@ plugins:
   - bibtex:
       bib_file: 'docs/refs.bib'
       cite_style: 'pandoc'
-  - mkdocstrings:
-      default_handler: python
-      handlers:
-        python:
-          rendering:
-            show_root_heading: true
-            show_source: true
-      custom_templates: templates
-      watch:
-        - .
+

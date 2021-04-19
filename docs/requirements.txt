@@ -1,0 +1,2 @@
+mkdocs-bibtex
+pymdown-extensions
