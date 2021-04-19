@@ -57,6 +57,8 @@ red = STGeoProcess(MABR, building).run()
 ### Minimum-Area Bounding Ellipse
 To determine the Minimum-Area Bounding Ellipse, we used the algorithm presented in (Leduc &amp; Leduc, 2020)[@Leduc2020]. To activate it, a _MABE_ instance must be passed as the first argument of the _STGeoProcess_ constructor. The threshold argument is an angular value in radians. It is used to prune the almost flat angles of the given geometries.
 
+> `MABE(npoints=40, threshold=None)`
+
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
 from t4gpd.morph.geoProcesses.MABE import MABE
