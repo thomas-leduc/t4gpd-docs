@@ -9,6 +9,7 @@
 #~ ======================================================================
 site_name: The t4gpd user manual
 site_author: Thomas LEDUC
+site_url: https://t4gpd-docs.readthedocs.io/en/latest
 
 theme:
   name: readthedocs
