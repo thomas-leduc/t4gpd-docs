@@ -1,7 +1,7 @@
 # Urban morphometry
 ## Generation of enclosing shapes
 ### Convex Hull
-The **t4gpd** class named _ConvexHull_ is a wrapper for the Shapely [convex_hull](https://shapely.readthedocs.io/en/stable/manual.html?highlight=convex%20hull#object.convex_hull) method. To use it, the class name _ConvexHull_ must be passed as the first argument of the _STGeoProcess_ constructor as in the following example. The resulting _red_ object is a GeoPandas [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
+The **t4gpd** class named _ConvexHull_ is a wrapper for the Shapely [convex_hull](https://shapely.readthedocs.io/en/stable/manual.html?highlight=convex%20hull#object.convex_hull) method. To use it, an instance of _ConvexHull_ must be passed as the first argument of the _STGeoProcess_ constructor as in the following example. The resulting _red_ object is a GeoPandas [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -9,7 +9,7 @@ from t4gpd.morph.geoProcesses.ConvexHull import ConvexHull
 from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
 
 building = GeoDataFrameDemos.singleBuildingInNantes()
-red = STGeoProcess(ConvexHull, building).run()
+red = STGeoProcess(ConvexHull(), building).run()
 ```
 
 The following code snippet allows to map these 2 [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
@@ -34,7 +34,7 @@ from t4gpd.morph.geoProcesses.MBC import MBC
 from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
 
 building = GeoDataFrameDemos.singleBuildingInNantes()
-red = STGeoProcess(MBC, building).run()
+red = STGeoProcess(MBC(), building).run()
 ```
 
 ![Convex Hull](img/mbc.png)
@@ -48,11 +48,36 @@ from t4gpd.morph.geoProcesses.MABR import MABR
 from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
 
 building = GeoDataFrameDemos.singleBuildingInNantes()
-red = STGeoProcess(MABR, building).run()
+red = STGeoProcess(MABR(), building).run()
 ```
 ![Convex Hull](img/mabr.png)
 
-**Note**: Substituting the _MPBR_ class name to the _MABR_ one, allows to recover the Minimum-Perimeter Bounding Rectangle.
+**Note**: Substituting the _MPBR_ class name to the _MABR_ one, allows to recover the Minimum-Perimeter Bounding Rectangle. As can be seen from the following example taken from (Leduc &amp; Leduc, 2020)[@Leduc2020], MABR and MPBR can be quite different.
+
+```python
+import matplotlib.pyplot as plt
+from geopandas import GeoDataFrame
+from shapely.wkt import loads
+from t4gpd.morph.geoProcesses.MABR import MABR
+from t4gpd.morph.geoProcesses.MPBR import MPBR
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+
+red = GeoDataFrame([{'geometry': 
+	loads('POLYGON ((1 1, 3 1, 4 2, 2.8 2.9, 0.9 2.9, 0.25 2, 1 1))')}])
+green = STGeoProcess(MABR(), red).run()
+blue = STGeoProcess(MPBR(), red).run()
+
+_, basemap = plt.subplots(figsize=(0.25*8.26, 0.25*8.26))
+red.plot(ax=basemap, color='red')
+green.boundary.plot(ax=basemap, color='green')
+blue.boundary.plot(ax=basemap, color='blue')
+plt.axis('off')
+plt.savefig('img/mabr_vs_mpbr.png')
+```
+
+Indeed, the green MABR has an area of 7.125 m<sup>2</sup> and a perimeter of 11.3 m, while the blue MPBR has an area of 7.852 m<sup>2</sup> and a perimeter of 11.24 m.
+
+![Convex Hull](img/mabr_vs_mpbr.png)
 
 ### Minimum-Area Bounding Ellipse
 To determine the Minimum-Area Bounding Ellipse, we used the algorithm presented in (Leduc &amp; Leduc, 2020)[@Leduc2020]. To activate it, a _MABE_ instance must be passed as the first argument of the _STGeoProcess_ constructor. The threshold argument is an angular value in radians. It is used to prune the almost flat angles of the given geometries.

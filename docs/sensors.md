@@ -1,19 +1,20 @@
 # Deployment of virtual sensors
 ## Along urban routes
 
-The objective here is to learn how to sample a linear path using the *t4gpd.morph.STDensifier* class. Its constructor has 4 arguments: the first one corresponds to the name of the GeoDataFrame to sample, the second one corresponds to the value of the sampling step, the last two are optional.
+The objective here is to learn how to sample a linear path using the *t4gpd.morph.STPointsDensifier* class. Its constructor has 5 arguments: the first one corresponds to the name of the GeoDataFrame to sample, the second one corresponds to the value of the sampling step, the last three are optional.
 
-> `STDensifier(gdf, distance, adjustableDist=True, removeDuplicate=False)`
+> `STPointsDensifier(gdf, distance, pathidFieldname=None, adjustableDist=True, removeDuplicate=True)`
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
-from t4gpd.morph.STDensifier import STDensifier
+from t4gpd.morph.STPointsDensifier import STPointsDensifier
 
 pathways = GeoDataFrameDemos.districtRoyaleInNantesPaths()
 pathways = pathways[ pathways.gid == 2 ]
 
-sensors = STDensifier(pathways, distance=45.0, 
-	adjustableDist=True, removeDuplicate=False).run()
+sensors = STPointsDensifier(pathways, distance=45.0,
+	pathidFieldname=None, adjustableDist=True, 
+	removeDuplicate=False).run()
 ```
 
 To map it via matplotlib, proceed as follows:
@@ -75,20 +76,20 @@ The aim here is to use the virtual sensor positioning strategy presented in (Rod
 
 The constructor of this class has two arguments. The first is the GeoDataFrame of the building footprints and the second is the sampling distance between two consecutive points located on the building contours. These points are used in the tessellation process. Once the skeleton of the open space is obtained, it only remains to sample it in a set of points with the [previously mentioned geoprocessing](#along-urban-routes):
 
-> `STDensifier(gdf, distance, adjustableDist=True, removeDuplicate=False)`
+> `STPointsDensifier(gdf, distance, pathidFieldname=None, adjustableDist=True, removeDuplicate=True)`
 
 The following code snippet summarizes the entire process:
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
-from t4gpd.morph.STDensifier import STDensifier
+from t4gpd.morph.STPointsDensifier import STPointsDensifier
 from t4gpd.morph.STSkeletonizeTheVoid import STSkeletonizeTheVoid
 
 buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
 
 skeleton = STSkeletonizeTheVoid(buildings, samplingDist=5.0).run()
 
-sensors = STDensifier(skeleton, distance=15.0, 
+sensors = STPointsDensifier(skeleton, distance=15.0, 
 	adjustableDist=True, removeDuplicate=False).run()
 ```
 

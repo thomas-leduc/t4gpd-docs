@@ -120,6 +120,8 @@ building = GeoDataFrameDemos.singleBuildingInNantes()
 bbox = STGeoProcess(BBox(), building).run()
 ```
 
+The following classes are in the same category (non-exhaustive list): AngularAbscissa, AreaConvexityDefect, AspectRatio, BBox, BiggestInscribedDisc, CanyonStreetOrientation, [CircularityIndices](/morphometry/#circularity-indices), [ConvexHull](/morphometry/#convex-hull), [ConvexityIndices](/morphometry/#convexity-indices), Diameter, [EllipticityIndices](/morphometry/#ellipticity-indices), [FootprintExtruder](/io/#preamble-how-to-extrude-2d-geometry-to-produce-a-closed-volume), GridFace, [HeightOfRoughness](/fabrics/#height-of-roughness), HMean, IdentifyTheClosestPolyline, [MABE](/morphometry/#minimum-area-bounding-ellipse), MABR2, [MABR](/morphometry/#minimum-area-bounding-rectangle), [MBC](/morphometry/#minimum-bounding-circle), [MPBR](/morphometry/#minimum-area-bounding-rectangle), [RectangularityIndices](/morphometry/#rectangularity-indices), RemoveHoles, Rotation2D, [SkyMap2D](/landscape/#sky-map), SkyViewFactorOnTopOfRoof, [SkyViewFactor](/bioclimatic/#sky-view-factor), [StarShapedIndices](/landscape/#indices-for-star-shaped-polygons), [SurfaceFraction](/fabrics/#building-surface-fraction), Translation, WMean.
+
 ### Geoprocesses derived from *GeoProcess*
 
 This second category gathers the largest number of geoprocessing operations. As direct subclasses of the *GeoProcess* class, these geoprocesses offer two distinct methods: *run()* and *execute()*. The second one returns, in addition to the result of the first one, a measure of the calculation time.
