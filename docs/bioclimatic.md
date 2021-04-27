@@ -1,6 +1,8 @@
 # Urban bioclimatic shape analysis
 ## Sky View Factor
 ## Ground shadows
+
+<!--
 ## Comfort Indexes
 ### Mean radiant temperature
 
@@ -51,3 +53,4 @@ mrtGdf = STGeoProcess(op1, measuresGdf).run()
 op2 = UniversalThermalIndexes(mrtGdf, AirTC='TC_mean')
 mrtUtiGdf = STGeoProcess(op2, mrtGdf).run()
 ```
+-->
