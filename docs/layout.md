@@ -40,6 +40,7 @@ toPoints = GeoDataFrame([ {'geometry': Point((3553125, 6689362))} ], crs=roads.c
 result = STShortestPath(roads, fromPoints, toPoints).run()
 ```
 
+<!--
 ## Box counting algorithm
 
 ```python
@@ -61,3 +62,4 @@ STBoxCounting.plotLinearModel(boxCountingDict, title=None,
 ```
 
 ![Demo1](img/boxCounting-2.png)
+-->
