@@ -161,7 +161,9 @@ It is then possible to open the file '/tmp/building.vtu' in [ParaView](https://w
 
 ### Writing ZIP files
 
-The *t4gpd.io.ZipWriter* class allows to encapsulate several DataFrame or GeoDataFrame in a single .zip file on disk. The following instructions will create an archive on disk with the name */tmp/myZipFile.zip*:
+The *t4gpd.io.ZipWriter* class allows to encapsulate several DataFrame or GeoDataFrame in a single .zip
+file on disk. The following instructions will create an archive on disk with the name */tmp/myZipFile.zip*:
+
 ```
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
 from t4gpd.io.ZipWriter import ZipWriter
