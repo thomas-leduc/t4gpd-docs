@@ -166,7 +166,7 @@ from t4gpd.morph.GmshTriangulator import GmshTriangulator
 
 building = GeoDataFrameDemos.singleBuildingInNantes()
 tin = GmshTriangulator(building, characteristicLength=15.0,
-	gmsh='/usr/local/bin/gmsh').run()
+	gmsh='/usr/bin/gmsh').run()
 ```
 
 To map the resulting mesh via matplotlib, proceed as follows:
@@ -183,3 +183,55 @@ plt.savefig('img/demo8.png')
 ```
 
 ![Demo8](img/demo8.png)
+
+<!--
+## How to snap points on line?
+There are two distinct possibilities, either via the *t4gpd.morph.STSnappingPointsOnLines* class, or via the *t4gpd.morph.STSnappingPointsOnLines2* class.
+
+To implement the *STSnappingPointsOnLines* class, let's start by sampling an urban route [as we did before](#along-urban-routes):
+
+```python
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.morph.STPointsDensifier import STPointsDensifier
+
+pathways = GeoDataFrameDemos.districtRoyaleInNantesPaths()
+pathways = pathways.loc[ pathways[pathways.gid == 2].index ]
+
+sensors = STPointsDensifier(pathways, distance=45.0,
+	pathidFieldname=None, adjustableDist=True, 
+	removeDuplicate=False).run()
+```
+![Demo4](img/demo4.png)
+
+Let us then pseudo-randomly perturb the position of the various points resulting from the sampling.
+
+```python
+from random import choice, random, seed
+from shapely.geometry import Point
+
+seed(1)
+radii = [-20.0, 20.0]
+sensors.geometry = sensors.geometry.apply(
+    lambda g: Point(g.x + choice(radii) * random(), g.y + choice(radii) * random()))
+```
+
+As a result of this disturbance, the sample points are no longer snapped to the trajectory. Let's use the *STSnappingPointsOnLines* class: 
+
+```python
+from t4gpd.morph.STSnappingPointsOnLines import STSnappingPointsOnLines
+STSnappingPointsOnLines(sensors, pathways).run()
+```
+
+To map it via matplotlib, proceed as follows:
+
+```python
+import matplotlib.pyplot as plt
+
+_, basemap = plt.subplots(figsize=(0.25*8.26, 0.25*8.26))
+pathways.plot(ax=basemap, color='black', linewidth=0.5)
+sensors.plot(ax=basemap, color='red', marker='P')
+plt.axis('off')
+plt.show()
+plt.savefig('img/demo4.png')
+```
+-->
