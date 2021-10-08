@@ -35,6 +35,7 @@ nav:
     - 'User Guide':
         - 'Introduction': 'introduction.md'
         - 'Reading and writing files': 'io.md'
+        - 'Interfacing with QGIS': 'pyqgis.md'
         - 'Deployment of virtual sensors': 'sensors.md'
         - 'Morphometry': 'morphometry.md'
         - 'Urban layouts analysis': 'layout.md'
