@@ -18,10 +18,6 @@ theme:
   hljs_languages:
     - python
 
-markdown_extensions:
-  - footnotes
-  - pymdownx.emoji:
-
 plugins:
   - search
   - bibtex:
@@ -29,6 +25,10 @@ plugins:
       cite_style: 'pandoc'
       #~ bib_command: '\bibliography'
       #~ full_bib_command: '\full_bibliography'
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.emoji:
 
 nav:
     - Home: 'index.md'
