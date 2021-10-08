@@ -34,7 +34,9 @@ plt.axis('off')
 plt.savefig('img/demo4.png')
 ```
 
-*Note:* This mapping presupposes that you have already [loaded the building footprints](introduction.md#loading-a-set-of-buildings-and-roads).
+*Note:* This mapping presupposes that you have already [loaded the
+ building
+ footprints](introduction.md#loading-a-set-of-buildings-and-roads).
 
 ![Demo4](img/demo4.png)
 
@@ -76,8 +78,9 @@ plt.savefig('img/demo5.png')
 ## Along the skeleton of the urban open space
 
 The aim here is to use the virtual sensor positioning strategy
-presented in (Rodler &amp; Leduc, 2019)[@Rodler2019]. The first step
-is therefore to determine the skeleton of the open space using the
+presented in [(Rodler &amp; Leduc,
+2019)](https://doi.org/10.1016/j.uclim.2019.100457). The first step is
+therefore to determine the skeleton of the open space using the
 following geoprocessing:
 
 > `STSkeletonizeTheVoid(gdf, samplingDist=10.0)`

@@ -1,7 +1,13 @@
 # Urban morphometry
 ## Generation of enclosing shapes
 ### Convex Hull
-The **t4gpd** class named _ConvexHull_ is a wrapper for the Shapely [convex_hull](https://shapely.readthedocs.io/en/stable/manual.html?highlight=convex%20hull#object.convex_hull) method. To use it, an instance of _ConvexHull_ must be passed as the first argument of the _STGeoProcess_ constructor as in the following example. The resulting _red_ object is a GeoPandas [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
+
+The **t4gpd** class named _ConvexHull_ is a wrapper for the Shapely
+[convex_hull](https://shapely.readthedocs.io/en/stable/manual.html?highlight=convex%20hull#object.convex_hull)
+method. To use it, an instance of _ConvexHull_ must be passed as the
+first argument of the _STGeoProcess_ constructor as in the following
+example. The resulting _red_ object is a GeoPandas
+[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -12,7 +18,8 @@ building = GeoDataFrameDemos.singleBuildingInNantes()
 red = STGeoProcess(ConvexHull(), building).run()
 ```
 
-The following code snippet allows to map these 2 [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
+The following code snippet allows to map these 2
+[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
 
 ```python
 import matplotlib.pyplot as plt
@@ -26,7 +33,11 @@ plt.savefig('img/convex_hull.png')
 ![Convex Hull](img/convex_hull.png)
 
 ### Minimum Bounding Circle
-To determine the Minimum-area Bounding Circle, we implemented the Chrystal Algorithm. The **t4gpd** class with the name _MBC_ allows, as before, when it is passed as the first argument of the _STGeoProcess_ constructor to implement the corresponding mechanism.
+
+To determine the Minimum-area Bounding Circle, we implemented the
+Chrystal Algorithm. The **t4gpd** class with the name _MBC_ allows, as
+before, when it is passed as the first argument of the _STGeoProcess_
+constructor to implement the corresponding mechanism.
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -40,7 +51,12 @@ red = STGeoProcess(MBC(), building).run()
 ![Convex Hull](img/mbc.png)
 
 ### Minimum-area Bounding Rectangle
-To determine the Minimum-area Bounding Rectangle, we wrapped the shapely method named [minimum_rotated_rectangle](https://shapely.readthedocs.io/en/latest/manual.html?highlight=minimum_rotated_rectangle#object.minimum_rotated_rectangle). To activate it, the _MABR_ class must be passed as the first argument of the _STGeoProcess_ constructor.
+
+To determine the Minimum-area Bounding Rectangle, we wrapped the
+shapely method named
+[minimum_rotated_rectangle](https://shapely.readthedocs.io/en/latest/manual.html?highlight=minimum_rotated_rectangle#object.minimum_rotated_rectangle). To
+activate it, the _MABR_ class must be passed as the first argument of
+the _STGeoProcess_ constructor.
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -52,7 +68,11 @@ red = STGeoProcess(MABR(), building).run()
 ```
 ![Convex Hull](img/mabr.png)
 
-**Note**: Substituting the _MPBR_ class name to the _MABR_ one, allows to recover the Minimum-Perimeter Bounding Rectangle. As can be seen from the following example taken from (Leduc &amp; Leduc, 2020)[@Leduc2020], MABR and MPBR can be quite different.
+**Note**: Substituting the _MPBR_ class name to the _MABR_ one, allows
+  to recover the Minimum-Perimeter Bounding Rectangle. As can be seen
+  from the following example taken from [(Leduc &amp; Leduc,
+  2020)](https://doi.org/10.1080/13658816.2020.1800017), MABR and MPBR
+  can be quite different.
 
 ```python
 import matplotlib.pyplot as plt
@@ -75,12 +95,21 @@ plt.axis('off')
 plt.savefig('img/mabr_vs_mpbr.png')
 ```
 
-Indeed, the green MABR has an area of 7.125 m<sup>2</sup> and a perimeter of 11.3 m, while the blue MPBR has an area of 7.852 m<sup>2</sup> and a perimeter of 11.24 m.
+Indeed, the green MABR has an area of 7.125 m<sup>2</sup> and a
+perimeter of 11.3 m, while the blue MPBR has an area of 7.852
+m<sup>2</sup> and a perimeter of 11.24 m.
 
 ![Convex Hull](img/mabr_vs_mpbr.png)
 
 ### Minimum-Area Bounding Ellipse
-To determine the Minimum-Area Bounding Ellipse, we used the algorithm presented in (Leduc &amp; Leduc, 2020)[@Leduc2020]. To activate it, a _MABE_ instance must be passed as the first argument of the _STGeoProcess_ constructor. The threshold argument is an angular value in radians. It is used to prune the almost flat angles of the given geometries.
+
+To determine the Minimum-Area Bounding Ellipse, we used the algorithm
+presented in [(Leduc &amp; Leduc,
+  2020)](https://doi.org/10.1080/13658816.2020.1800017). To activate it, a
+_MABE_ instance must be passed as the first argument of the
+_STGeoProcess_ constructor. The threshold argument is an angular value
+in radians. It is used to prune the almost flat angles of the given
+geometries.
 
 > `MABE(npoints=40, threshold=None)`
 
@@ -98,13 +127,24 @@ red = STGeoProcess(MABE(npoints=40, threshold=None), building).run()
 \bibliography
 
 ## Convexity indices
+
 There are various convexity indices among which we have implemented:
 
-  * The number of convex components. This dimensionless indicator corresponds to the number of concavities in the shape. In the resulting [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame), the corresponding column is named _n_con_comp_.
-  * The surface convexity defect. This indicator is dimensionless and standardized. It is equal to the ratio of the area of the shape to that of its convex hull. In the resulting [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame), the corresponding column is named _a_conv_def_.
-  * The perimeter convexity defect. In the resulting [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame), the corresponding column is named _p_conv_def_.
-  * 
-  * 
+  * The number of convex components. This dimensionless indicator
+    corresponds to the number of concavities in the shape. In the
+    resulting
+    [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame),
+    the corresponding column is named _n_con_comp_.
+
+  * The surface convexity defect. This indicator is dimensionless and
+    standardized. It is equal to the ratio of the area of the shape to
+    that of its convex hull. In the resulting
+    [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame),
+    the corresponding column is named _a_conv_def_.
+
+  * The perimeter convexity defect. In the resulting
+    [GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame),
+    the corresponding column is named _p_conv_def_.
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos

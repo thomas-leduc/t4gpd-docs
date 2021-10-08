@@ -7,14 +7,15 @@ isovist. In the case where no opaque surface stops the field of view,
 it is sometimes necessary to impose an artificial horizon to limit the
 range.
 
-To analyze space in a more systematic way over a territory, Benedikt
-(1979)[@Benedikt1979] proposes the notion of isovist field. This is an
-extrapolation of the mathematical notion of scalar field (resp. vector
-field) which associates a scalar (resp. a vector) with any point in
-Euclidean space. If the isovist describes the space surrounding a
-given point, the isovist field associates, to any point of the study
-area, an isovist. The isovist field thus gives access to the
-description property of the enveloping space at any point of interest.
+To analyze space in a more systematic way over a territory, [Benedikt
+(1979)](https://doi.org/10.1068/b060047) proposes the notion of
+isovist field. This is an extrapolation of the mathematical notion of
+scalar field (resp. vector field) which associates a scalar (resp. a
+vector) with any point in Euclidean space. If the isovist describes
+the space surrounding a given point, the isovist field associates, to
+any point of the study area, an isovist. The isovist field thus gives
+access to the description property of the enveloping space at any
+point of interest.
 
 > `STIsovistField2D(buildings, viewpoints, nRays=64, rayLength=100.0)`
 
@@ -51,8 +52,8 @@ plt.savefig('img/isovists.png')
 
 ### Indices for star-shaped polygons
 
-An isovist is, by nature, star-shaped. As noted by Piombini et
-al. (2014)[@Piombini2014], because of this topological property, such
+An isovist is, by nature, star-shaped. As noted by [Piombini et
+al. (2014)](https://doi.org/10.3166/rig.24.101-130), because of this topological property, such
 a shape can be described by simply transcribing its contour into a
 radial distance function. This radial distance function associates to
 a given azimuth (from the angular abscissa discretization) the length
