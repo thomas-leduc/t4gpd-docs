@@ -13,9 +13,22 @@ site_url: https://t4gpd-docs.readthedocs.io/en/latest
 
 theme:
   name: readthedocs
+  locale: en
   highlightjs: true
   hljs_languages:
     - python
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.emoji:
+
+plugins:
+  - search
+  - bibtex:
+      bib_file: 'docs/refs.bib'
+      cite_style: 'pandoc'
+      #~ bib_command: '\bibliography'
+      #~ full_bib_command: '\full_bibliography'
 
 nav:
     - Home: 'index.md'
@@ -33,15 +46,3 @@ nav:
         - 'About': 'about.md'
         #~ - 'License': 'gpl-3.0.md'
         #~ - 'Release Notes': 'release-notes.md'
-
-markdown_extensions:
-  - footnotes
-  - pymdownx.emoji:
-
-plugins:
-  - search
-  - bibtex:
-      bib_file: 'docs/refs.bib'
-      cite_style: 'pandoc'
-      bib_command: '\bibliography'
-      full_bib_command: '\full_bibliography'
