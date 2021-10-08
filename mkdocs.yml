@@ -20,9 +20,9 @@ theme:
 
 plugins:
   - search
-  - bibtex:
-      bib_file: 'docs/refs.bib'
-      cite_style: 'pandoc'
+  #~ - bibtex:
+      #~ bib_file: 'docs/refs.bib'
+      #~ cite_style: 'pandoc'
       #~ bib_command: '\bibliography'
       #~ full_bib_command: '\full_bibliography'
 
