@@ -158,3 +158,36 @@ VTUWriter(building, '/tmp/building.vtu').run()
 It is then possible to open the file '/tmp/building.vtu' in [ParaView](https://www.paraview.org/).
 
 ![ParaView](img/paraview.png)
+
+### Writing ZIP files
+
+The *t4gpd.io.ZipWriter* class allows to encapsulate several DataFrame or GeoDataFrame in a single .zip file on disk. The following instructions will create an archive on disk with the name */tmp/myZipFile.zip*:
+```
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.io.ZipWriter import ZipWriter
+
+buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
+roads = GeoDataFrameDemos.districtRoyaleInNantesRoads()
+mapOfDf = {'buildings': buildings, 'roads': roads}
+ZipWriter(mapOfDf, '/tmp/myZipFile', driver='ESRI Shapefile').run()
+```
+Various values for the driver option are possible: 'ESRI Shapefile', 'GPKG' and 'GeoJSON'.
+
+The contents of this archive '/tmp/myZipFile' are as follows:
+```
+Archive:  /tmp/myZipFile.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+      452  2021-10-08 10:51   myZipFile/roads.prj
+    14860  2021-10-08 10:51   myZipFile/roads.shp
+     2084  2021-10-08 10:51   myZipFile/buildings.shx
+    89868  2021-10-08 10:51   myZipFile/buildings.shp
+      452  2021-10-08 10:51   myZipFile/buildings.prj
+    26138  2021-10-08 10:51   myZipFile/buildings.dbf
+        5  2021-10-08 10:51   myZipFile/buildings.cpg
+      964  2021-10-08 10:51   myZipFile/roads.shx
+    11438  2021-10-08 10:51   myZipFile/roads.dbf
+        5  2021-10-08 10:51   myZipFile/roads.cpg
+---------                     -------
+   146266                     10 files
+```
