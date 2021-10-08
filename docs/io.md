@@ -3,9 +3,19 @@
 ## Reading files
 ### Reading CIR (Solene) files
 
-[Solene](https://aau.archi.fr/crenau/solene/) is an (old) software tool developed in the 1990s and early 2000s at the AAU-CERMA laboratory (the forerunner of the current [AAU-CRENAU laboratory](https://aau.archi.fr/)). Originally dedicated to the urban and architectural projects' solar and light access and thermal radiation calculations, it was then extended to the study of different dimensions of the urban microclimate. This project is now archived. Its sources are distributed under the GNU General Public License at [SourceSup](https://sourcesup.renater.fr/projects/solenetb/).
+[Solene](https://aau.archi.fr/crenau/solene/) is an (old) software
+tool developed in the 1990s and early 2000s at the AAU-CERMA
+laboratory (the forerunner of the current [AAU-CRENAU
+laboratory](https://aau.archi.fr/)). Originally dedicated to the urban
+and architectural projects' solar and light access and thermal
+radiation calculations, it was then extended to the study of different
+dimensions of the urban microclimate. This project is now
+archived. Its sources are distributed under the GNU General Public
+License at
+[SourceSup](https://sourcesup.renater.fr/projects/solenetb/).
 
-To load a geometry file stored in the Solene file format (.cir extension), proceed as follows:
+To load a geometry file stored in the Solene file format (.cir
+extension), proceed as follows:
 
 ```python
 from t4gpd.io.CirReader import CirReader
@@ -17,7 +27,10 @@ The resulting object named *myGdf* is an instance of GeoDataFrame.
 
 ### Partial support of CityGML files
 
-The [FZK-Haus](https://www.citygmlwiki.org/index.php?title=FZK_Haus) is a data set provided by the Karlsruhe Institute of Technology (KIT), Institute for Applied Computer Science (Campus North). Let's load it using *t4gpd.io.CityGMLReader*:
+The [FZK-Haus](https://www.citygmlwiki.org/index.php?title=FZK_Haus)
+is a data set provided by the Karlsruhe Institute of Technology (KIT),
+Institute for Applied Computer Science (Campus North). Let's load it
+using *t4gpd.io.CityGMLReader*:
 
 ```python
 from t4gpd.io.CityGMLReader import CityGMLReader
@@ -26,7 +39,8 @@ myGdf = CityGMLReader('./AC11-FZK-Haus_LoD4_SpaceSolid_v1.0.0.gml',
 	srcEpsgCode='EPSG:3068').run()
 ```
 
-The resulting object named *myGdf* is an instance of GeoDataFrame. To map it via matplotlib, proceed as follows:
+The resulting object named *myGdf* is an instance of GeoDataFrame. To
+map it via matplotlib, proceed as follows:
 
 ```python
 import matplotlib.pyplot as plt
@@ -53,7 +67,8 @@ The resulting object named *myGdf* is an instance of GeoDataFrame.
 
 ### Reading MSH (GMSH) files
 
-To load a geometry file stored in the GMSH/MSH file format (.msh extension), proceed as follows:
+To load a geometry file stored in the GMSH/MSH file format (.msh
+extension), proceed as follows:
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -85,9 +100,19 @@ buildingVolume = STGeoProcess(op, building).run()
 
 ### Writing CIR (Solene) files
 
-[Solene](https://aau.archi.fr/crenau/solene/) is an (old) software tool developed in the 1990s and early 2000s at the AAU-CERMA laboratory (the forerunner of the current [AAU-CRENAU laboratory](https://aau.archi.fr/)). Originally dedicated to the urban and architectural projects' solar and light access and thermal radiation calculations, it was then extended to the study of different dimensions of the urban microclimate. This project is now archived. Its sources are distributed under the GNU General Public License at [SourceSup](https://sourcesup.renater.fr/projects/solenetb/).
+[Solene](https://aau.archi.fr/crenau/solene/) is an (old) software
+tool developed in the 1990s and early 2000s at the AAU-CERMA
+laboratory (the forerunner of the current [AAU-CRENAU
+laboratory](https://aau.archi.fr/)). Originally dedicated to the urban
+and architectural projects' solar and light access and thermal
+radiation calculations, it was then extended to the study of different
+dimensions of the urban microclimate. This project is now
+archived. Its sources are distributed under the GNU General Public
+License at
+[SourceSup](https://sourcesup.renater.fr/projects/solenetb/).
 
-To save a GeoDataFrame in the Solene file format (.cir extension), proceed as follows:
+To save a GeoDataFrame in the Solene file format (.cir extension),
+proceed as follows:
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -109,7 +134,9 @@ buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
 GeoWriter(buildings, '/tmp/buildings.geo', characteristicLength=10.0, toLocalCrs=True).run()
 ```
 
-It is then possible, as shown in the figure below, to open the file '/tmp/buildings.geo' in the [GMSH](http://gmsh.info/) three-dimensional finite element mesh generator, then to mesh it.
+It is then possible, as shown in the figure below, to open the file
+*/tmp/buildings.geo* in the [GMSH](http://gmsh.info/)
+three-dimensional finite element mesh generator, then to mesh it.
 
 ![Gmsh](img/gmsh.png)
 
@@ -125,7 +152,9 @@ buildings = buildings.explode()
 ObjWriter(buildings, '/tmp/buildings.obj').run()
 ```
 
-It is then possible, as an example, to open the file '/tmp/buildings.obj' in [Meshlab](https://www.meshlab.net/) or [ParaView](https://www.paraview.org/).
+It is then possible, as an example, to open the file
+*/tmp/buildings.obj* in [Meshlab](https://www.meshlab.net/) or
+[ParaView](https://www.paraview.org/).
 
 ![Meshlab](img/meshlab.png)
 
@@ -140,7 +169,8 @@ buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
 SVGWriter(buildings, '/tmp/buildings.svg', bbox=None, color='black').run()
 ```
 
-It is then possible, as an example, to open the file '/tmp/buildings.svg' in [Inkscape](https://inkscape.org/).
+It is then possible, as an example, to open the file
+*/tmp/buildings.svg* in [Inkscape](https://inkscape.org/).
 
 ![Inkscape](img/inkscape.png)
 
@@ -155,14 +185,17 @@ building = GeoDataFrameDemos.singleBuildingInNantes()
 VTUWriter(building, '/tmp/building.vtu').run()
 ```
 
-It is then possible to open the file '/tmp/building.vtu' in [ParaView](https://www.paraview.org/).
+It is then possible to open the file */tmp/building.vtu* in
+[ParaView](https://www.paraview.org/).
 
 ![ParaView](img/paraview.png)
 
 ### Writing ZIP files
 
-The *t4gpd.io.ZipWriter* class allows to encapsulate several DataFrame or GeoDataFrame in a single .zip
-file on disk. The following instructions will create an archive on disk with the name */tmp/myZipFile.zip*:
+The *t4gpd.io.ZipWriter* class allows to encapsulate several DataFrame
+or GeoDataFrame in a single .zip file on disk. The following
+instructions will create an archive on disk with the name
+*/tmp/myZipFile.zip*:
 
 ```
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -173,9 +206,12 @@ roads = GeoDataFrameDemos.districtRoyaleInNantesRoads()
 mapOfDf = {'buildings': buildings, 'roads': roads}
 ZipWriter(mapOfDf, '/tmp/myZipFile', driver='ESRI Shapefile').run()
 ```
-Various values for the driver option are possible: 'ESRI Shapefile', 'GPKG' and 'GeoJSON'.
 
-The contents of this archive '/tmp/myZipFile' are as follows:
+Various values for the driver option are possible: 'ESRI Shapefile',
+'GPKG' and 'GeoJSON'.
+
+The contents of this archive */tmp/myZipFile.zip* are as follows:
+
 ```
 Archive:  /tmp/myZipFile.zip
   Length      Date    Time    Name
