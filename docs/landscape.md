@@ -175,5 +175,3 @@ plt.savefig('img/skySunMaps.png')
 ```
 
 ![Sky Maps](img/skySunMaps.png)
-
-\bibliography

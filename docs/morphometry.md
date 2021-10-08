@@ -124,8 +124,6 @@ red = STGeoProcess(MABE(npoints=40, threshold=None), building).run()
 
 ![Convex Hull](img/mabe.png)
 
-\bibliography
-
 ## Convexity indices
 
 There are various convexity indices among which we have implemented:

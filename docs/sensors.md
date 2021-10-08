@@ -130,8 +130,6 @@ plt.savefig('img/demo6.png')
 
 ![Demo6](img/demo6.png)
 
-\bibliography
-
 ## Meshing of the urban space
 
 ### Grid the region of interest
