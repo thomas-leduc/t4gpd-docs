@@ -185,8 +185,8 @@ building = GeoDataFrameDemos.singleBuildingInNantes()
 VTUWriter(building, '/tmp/building.vtu').run()
 ```
 
-It is then possible to open the file */tmp/building.vtu* in
-[ParaView](https://www.paraview.org/).
+It is then possible, as an example, to open the file
+*/tmp/building.vtu* in [ParaView](https://www.paraview.org/).
 
 ![ParaView](img/paraview.png)
 
