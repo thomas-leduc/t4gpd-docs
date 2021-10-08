@@ -184,10 +184,10 @@ plt.savefig('img/demo8.png')
 
 ![Demo8](img/demo8.png)
 
-<!--
 ## How to snap points on line?
 There are two distinct possibilities, either via the *t4gpd.morph.STSnappingPointsOnLines* class, or via the *t4gpd.morph.STSnappingPointsOnLines2* class.
 
+<!--
 To implement the *STSnappingPointsOnLines* class, let's start by sampling an urban route [as we did before](#along-urban-routes):
 
 ```python
