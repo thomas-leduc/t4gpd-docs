@@ -28,6 +28,7 @@ nav:
         - 'Urban fabrics analysis': 'fabrics.md'
         - 'Urban landscape analysis': 'landscape.md'
         - 'Urban bioclimatic shape analysis': 'bioclimatic.md'
+        #~ - 'Bibliography': 'bibliography.md'
     - About:
         - 'About': 'about.md'
         #~ - 'License': 'gpl-3.0.md'
@@ -42,4 +43,5 @@ plugins:
   - bibtex:
       bib_file: 'docs/refs.bib'
       cite_style: 'pandoc'
-
+      bib_command: '\bibliography'
+      full_bib_command: '\full_bibliography'
