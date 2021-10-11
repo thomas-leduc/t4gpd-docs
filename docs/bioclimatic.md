@@ -3,7 +3,7 @@
 ## Ground shadows
 
 Some of the following features are implemented in [(Leduc et al.,
-2021)](https://hal.archives-ouvertes.fr/hal-03368426/document).
+2021)](https://hal.archives-ouvertes.fr/hal-03368426/document){target=_blank}.
 
 ### Ground shadows of buildings
 

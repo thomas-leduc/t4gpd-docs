@@ -29,6 +29,7 @@ plugins:
 markdown_extensions:
   - footnotes
   - pymdownx.emoji:
+  - attr_list #~ [label](url){target=_blank}
 
 nav:
     - Home: 'index.md'
