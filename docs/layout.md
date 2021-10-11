@@ -1,6 +1,12 @@
 # Analysis of the shape of urban layouts
 
-**t4gpd** is coupled to [NetworkX](https://networkx.org/) and benefits in particular from [betweenness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.betweenness_centrality.html\#networkx.algorithms.centrality.betweenness_centrality) and [closeness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.closeness_centrality.html\#networkx.algorithms.centrality.closeness_centrality) calculations.
+**t4gpd** is coupled to
+[NetworkX](https://networkx.org/){target=_blank} and benefits in
+particular from
+[betweenness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.betweenness_centrality.html\#networkx.algorithms.centrality.betweenness_centrality){target=_blank}
+and
+[closeness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.closeness_centrality.html\#networkx.algorithms.centrality.closeness_centrality){target=_blank}
+calculations.
 
 ## Betweenness centrality
 

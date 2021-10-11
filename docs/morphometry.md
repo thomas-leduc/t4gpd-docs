@@ -7,7 +7,7 @@ The **t4gpd** class named _ConvexHull_ is a wrapper for the Shapely
 method. To use it, an instance of _ConvexHull_ must be passed as the
 first argument of the _STGeoProcess_ constructor as in the following
 example. The resulting _red_ object is a GeoPandas
-[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
+[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame){target=_blank}.
 
 ```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
@@ -18,8 +18,8 @@ building = GeoDataFrameDemos.singleBuildingInNantes()
 red = STGeoProcess(ConvexHull(), building).run()
 ```
 
-The following code snippet allows to map these 2
-[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame).
+The following code snippet allows to map these two
+[GeoDataFrame](https://geopandas.org/docs/reference/api/geopandas.GeoDataFrame.html?highlight=geodataframe#geopandas.GeoDataFrame){target=_blank}.
 
 ```python
 import matplotlib.pyplot as plt
@@ -69,10 +69,10 @@ red = STGeoProcess(MABR(), building).run()
 ![Convex Hull](img/mabr.png)
 
 **Note**: Substituting the _MPBR_ class name to the _MABR_ one, allows
-  to recover the Minimum-Perimeter Bounding Rectangle. As can be seen
-  from the following example taken from [(Leduc &amp; Leduc,
-  2020)](https://doi.org/10.1080/13658816.2020.1800017), MABR and MPBR
-  can be quite different.
+to recover the Minimum-Perimeter Bounding Rectangle. As can be seen
+from the following example taken from [(Leduc &amp; Leduc,
+2020)](https://doi.org/10.1080/13658816.2020.1800017){target=_blank},
+MABR and MPBR can be quite different.
 
 ```python
 import matplotlib.pyplot as plt
@@ -105,8 +105,8 @@ m<sup>2</sup> and a perimeter of 11.24 m.
 
 To determine the Minimum-Area Bounding Ellipse, we used the algorithm
 presented in [(Leduc &amp; Leduc,
-  2020)](https://doi.org/10.1080/13658816.2020.1800017). To activate it, a
-_MABE_ instance must be passed as the first argument of the
+2020)](https://doi.org/10.1080/13658816.2020.1800017). To activate it,
+a _MABE_ instance must be passed as the first argument of the
 _STGeoProcess_ constructor. The threshold argument is an angular value
 in radians. It is used to prune the almost flat angles of the given
 geometries.

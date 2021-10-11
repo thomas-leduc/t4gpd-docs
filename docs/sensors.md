@@ -79,7 +79,7 @@ plt.savefig('img/demo5.png')
 
 The aim here is to use the virtual sensor positioning strategy
 presented in [(Rodler &amp; Leduc,
-2019)](https://doi.org/10.1016/j.uclim.2019.100457). The first step is
+2019)](https://doi.org/10.1016/j.uclim.2019.100457){target=_blank}. The first step is
 therefore to determine the skeleton of the open space using the
 following geoprocessing:
 
@@ -173,7 +173,7 @@ plt.savefig('img/demo7.png')
 
 The mesh we will produce here assumes that you have installed the
 [GMSH three-dimensional finite element mesh
-generator](https://gmsh.info/). The class
+generator](https://gmsh.info/){target=_blank}. The class
 *t4gpd.morph.GmshTriangulator* is a wrapper that encapsulates an
 export to GMSH/Geo format, a call to the GMSH mesher and an import of
 the GMSH/MSH file format result.
