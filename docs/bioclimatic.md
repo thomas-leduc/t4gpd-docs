@@ -1,7 +1,9 @@
 # Urban bioclimatic shape analysis
 ## Sky View Factor
 
-The sky view factor is a synthetic indicator that aims to quantify, at any point in the urban environment, the openness of space and, more specifically, the potential to see the sky. This indicator varies from 0 (the sky is absolutely not visible) to 1 (the view of the sky is not hindered by any mask). In the following example, we first mesh the space (via the *t4gpd.morph.GmshTriangulator*) and then calculate the SVF in the centroid of each mesh. For this purpose, we use the class *t4gpd.morph.geoProcesses.SkyViewFactor*.
+The sky view factor is a synthetic indicator that aims to quantify, at any point in the urban environment, the openness of space and, more specifically, the potential to see the sky. This indicator varies from 0 (the sky is absolutely not visible) to 1 (the view of the sky is not hindered by any mask). This indicator and its implementation are more precisely described in ([Rodler and Leduc, 2019](https://dx.doi.org/10.1016/j.uclim.2019.100457)).
+
+In the following example, we first mesh the space (via the *t4gpd.morph.GmshTriangulator*) and then calculate the SVF in the centroid of each mesh. For this purpose, we use the class *t4gpd.morph.geoProcesses.SkyViewFactor*.
 
 ```python
 import geopandas as gpd, matplotlib.pyplot as plt
