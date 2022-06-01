@@ -1,5 +1,48 @@
 # Urban bioclimatic shape analysis
 ## Sky View Factor
+
+The sky view factor is a synthetic indicator that aims to quantify, at any point in the urban environment, the openness of space and, more specifically, the potential to see the sky. This indicator varies from 0 (the sky is absolutely not visible) to 1 (the view of the sky is not hindered by any mask). In the following example, we first mesh the space (via the *t4gpd.morph.GmshTriangulator*) and then calculate the SVF in the centroid of each mesh. For this purpose, we use the class *t4gpd.morph.geoProcesses.SkyViewFactor*.
+
+```python
+import geopandas as gpd, matplotlib.pyplot as plt
+from shapely.geometry import box, Point
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.morph.GmshTriangulator import GmshTriangulator
+from t4gpd.morph.STExtractOpenSpaces import STExtractOpenSpaces
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+from t4gpd.morph.geoProcesses.SkyViewFactor import SkyViewFactor
+
+buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
+
+roi = box(*Point((355187.0, 6689306.0)).buffer(60.0).bounds)
+roi = gpd.GeoDataFrame([{'geometry': roi}], crs=buildings.crs)
+
+void = STExtractOpenSpaces(roi, buildings).run()
+void = void.explode()
+void = void[void.area > 100]
+void.geometry = void.simplify(tolerance=1.0, preserve_topology=True)
+sensors = GmshTriangulator(void, characteristicLength=10.0, 
+	gmsh = '/usr/local/bin/gmsh').run()
+
+op = SkyViewFactor(buildings, nRays=64, maxRayLen=100.0,
+	elevationFieldname='HAUTEUR', method=2018, background=True)
+sensors = STGeoProcess(op, sensors).run()
+
+minx, miny, maxx, maxy = roi.buffer(20.0).total_bounds
+
+_, basemap = plt.subplots(figsize=(8.26, 8.26))
+basemap.set_title('Sky View Factor', fontsize=16)
+plt.axis('off')
+buildings.plot(ax=basemap, color='grey')
+sensors.plot(ax=basemap, column='svf', markersize=8, 
+	legend=True, cmap='viridis')
+plt.axis([minx, maxx, miny, maxy])
+plt.legend(loc = 'upper right', framealpha=0.5)
+plt.savefig('img/svf.png', bbox_inches='tight')
+```
+
+![Shadows2](img/svf.png)
+
 ## Ground shadows
 
 Some of the following features are implemented in [(Leduc et al.,
