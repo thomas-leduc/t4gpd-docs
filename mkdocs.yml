@@ -1,11 +1,11 @@
 #~ ======================================================================
 #~ Thomas LEDUC - 26.01.2021
 #~ ======================================================================
-#~ pip install mkdocs
+#~ conda install mkdocs mkdocs-material pymdown-extensions
+#~ pip install mkdocs-bibtex
 #~ mkdocs new .
-#~ mkdocs serve
 #~
-#~ pip install mkdocs-bibtex pymdown-extensions
+#~ mkdocs serve
 #~ ======================================================================
 site_name: The t4gpd user manual
 site_author: Thomas LEDUC
