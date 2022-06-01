@@ -1,8 +1,6 @@
 # Analysis of the shape of urban layouts
 
-**t4gpd** is coupled to
-[NetworkX](https://networkx.org/){target=_blank} and benefits in
-particular from
+As ([Hamaina et al., 2011](https://hal.archives-ouvertes.fr/hal-01347325)) shows, the structural analysis of street networks is very useful to characterize the urban factory. This is the reason why we have chosen to couple **t4gpd** to [NetworkX](https://networkx.org/){target=_blank}. This coupling allows to benefit, in the context of **t4gpd**, from 
 [betweenness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.betweenness_centrality.html\#networkx.algorithms.centrality.betweenness_centrality){target=_blank}
 and
 [closeness_centrality](https://networkx.org/documentation/latest/reference/algorithms/generated/networkx.algorithms.centrality.closeness_centrality.html\#networkx.algorithms.centrality.closeness_centrality){target=_blank}
