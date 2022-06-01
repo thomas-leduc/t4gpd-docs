@@ -37,6 +37,7 @@ nav:
         - 'Introduction': 'introduction.md'
         - 'Reading and writing files': 'io.md'
         - 'Interfacing with QGIS': 'pyqgis.md'
+        - 'Interfacing with PyVista': 'pyvista.md'
         - 'Deployment of virtual sensors': 'sensors.md'
         - 'Morphometry': 'morphometry.md'
         - 'Urban layouts analysis': 'layout.md'
