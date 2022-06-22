@@ -120,3 +120,101 @@ scene.plot(scalars='height', cmap='gist_earth', show_edges=False, cpos='xy',
 ```
 
 ![PyVista ray casting](img/pyvista_2.png)
+
+## Estimation of view factors using ray casting (version 0.4.0+)
+
+The aim here is to estimate and represent the view factors associated with a sensor placed on the front of a building. Let's start by loading the urban model. We then separate the buildings from the ground surface by a simple filter on the value of the z component of the centroid.  This allows us to grid the ground surface before regrouping the whole model by concatenation.
+
+```python
+from pandas import concat, merge
+from t4gpd.commons.GeomLib import GeomLib
+from t4gpd.commons.GeomLib3D import GeomLib3D
+from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
+from t4gpd.morph.STGrid import STGrid
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+from t4gpd.pyvista.geoProcesses.MoveSensorsAwayFromSurface import MoveSensorsAwayFromSurface
+
+# Let's load a pre-registered 3D dataset
+buildings = GeoDataFrameDemos5.cirSceneMasque1Corr()
+buildings['height'] = buildings.geometry.apply(lambda g: GeomLib3D.centroid(g).z)
+
+# Let's extract only the building surfaces
+buildings2 = buildings.loc[ buildings[buildings['height'] > 0].index ]
+buildings2.reset_index(inplace=True, drop=True)
+
+# Let's extract the ground surface and grid it
+ground = buildings.loc[ buildings[buildings['height'] == 0].index ]
+ground.reset_index(inplace=True, drop=True)
+groundGrid = STGrid(ground, dx=4, dy=None, indoor=True, intoPoint=False).run()
+groundGrid.geometry = groundGrid.geometry.apply(
+	lambda g: GeomLib.forceZCoordinateToZ0(g, z0=0.0))
+groundGrid['normal_vec'] = groundGrid.gid.apply(lambda _: [0,0,1])
+groundGrid['height'] = 0
+
+# Let's group these two sets of faces by concatenation
+masks = concat([buildings2, groundGrid[['geometry', 'normal_vec', 'height']]])
+masks.reset_index(inplace=True, drop=True)
+
+# Be careful, the pk attribute must be unique (it is a primary key to use 
+# the Relational Databases terminology)
+masks['pk'] = masks.index
+
+# Let's deploy the sensors
+sensors = masks.copy(deep=True)
+sensors.geometry = sensors.geometry.apply(lambda g: GeomLib3D.centroid(g))
+op = MoveSensorsAwayFromSurface(sensors, normalFieldname='normal_vec', dist=1e-6)
+sensors = STGeoProcess(op, sensors).execute()
+
+# Let's select the only sensor of number 150
+sensors = sensors.loc[ sensors[sensors.pk == 150].index ]
+```
+
+The model being built, let's proceed to the ray casting:
+
+```python
+from t4gpd.pyvista.commons.RayCasting3DLib import RayCasting3DLib
+from t4gpd.pyvista.geoProcesses.RayCasting3D import RayCasting3D
+from t4gpd.pyvista.STRaysToViewFactors import STRaysToViewFactors
+
+# Let's prepare a set of 10,000 uniformly distributed rays
+shootingDirs = RayCasting3DLib.preparePanopticRays(nrays=10000)
+
+# Let's cast the already prepared rays
+op = RayCasting3D([masks], shootingDirs, viewpoints=sensors,
+                  normalFieldname='normal_vec', pkFieldname='pk')
+rays = STGeoProcess(op, sensors).execute()
+
+# Let's convert the DataFrame of rays into a sparse matrix of view factors
+vfSparseMatrix = STRaysToViewFactors(rays, 'pk', 'hitGids').run()
+
+# Let's assign these view factors to each face of the model by means of an attribute join
+masks2 = merge(masks, vfSparseMatrix[['dst', 'viewfactor']], how='left', 
+	left_on='pk', right_on='dst')
+masks2.viewfactor = masks2.viewfactor.fillna(value=0)
+```
+
+It remains then to display the results:
+
+```python
+from pyvista import global_theme, Plotter, Sphere
+from t4gpd.pyvista.ToUnstructuredGrid import ToUnstructuredGrid
+
+# The positions stored in the centroids list will allow us to display the 
+# number 150 sensor label in the right place
+centroids = sensors.geometry.apply(lambda g: g.coords[0]).to_list()
+scene = ToUnstructuredGrid([masks2, sensors], 'viewfactor').run()
+
+global_theme.background = 'grey'
+global_theme.axes.show = True
+
+plotter = Plotter(window_size=(1000, 800))
+# To improve the readability of the rendering we limit the color range using 'clim'
+plotter.add_mesh(scene, scalars='viewfactor', cmap='reds', show_edges=False,
+    show_scalar_bar=True, point_size=15.0, clim=[0,0.015], 
+    render_points_as_spheres=True)
+plotter.add_point_labels(centroids, sensors.pk.to_list(), font_size=16, point_size=1)
+plotter.camera_position = 'xy'
+plotter.show()
+```
+
+![Estimation of View Factors](img/pyvista_3.png)
