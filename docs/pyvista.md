@@ -41,85 +41,123 @@ As you may notice, the *t4gpd.pyvista.ToUnstructuredGrid* class provides a way t
 
 The coupling to the [PyVista.org](https://docs.pyvista.org/) library allows a robust and powerful ray casting in a 3D urban model (a small test allows me to cast two million rays in 67 seconds).
 
-To be able to cast these rays, let's start by building a (small) 3D model and anchoring some sensors in its facades:
+### Panoptic ray casting in 3D (version 0.4.0+)
+
+To be able to cast these rays, let's start by building a (small) 3D model with two "sensors":
+
 
 ```python
 from geopandas import GeoDataFrame
-from numpy.random import randint, seed
-from shapely.geometry import box
-from t4gpd.commons.GeomLib import GeomLib
-from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
-from t4gpd.morph.geoProcesses.FootprintExtruder import FootprintExtruder
-from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
-from t4gpd.morph.STPointsDensifier2 import STPointsDensifier2
+from shapely.geometry import Point
+from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
 
-# Let's start by reseeding a BitGenerator
-seed(0)
-
-# Let's generate a set of building footprints
-buildings = GeoDataFrameDemos.regularGridOfPlots(3, 3, dw=5.0)
-buildings['n_floors'] = randint(2, 7, size=len(buildings))
-buildings['height'] = 3.0 * buildings.n_floors
-
-# Let's proceed to the extrusion of the building footprints
-op = FootprintExtruder(buildings, 'height', forceZCoordToZero=True)
-buildingsIn3d = STGeoProcess(op, buildings).run()
-
-# Let's generate a ground surface to intercept the rays
-ground = GeoDataFrame([{'geometry': box(*buildings.buffer(10).total_bounds), 'height': 0}])
-
-# Let's anchor the sensors on the facades (at a distance of 1e-6 m from the facades)
-d = 1e-6
-sensors = STPointsDensifier2(buildings, [0.5], pathidFieldname='gid',
-	distToTheSubstrate=d).run()
-sensors['__TMP__'] = list(zip(sensors.geometry, sensors.height))
-# Let's move the sensors from the ground to the floors
-sensors.geometry = sensors.__TMP__.apply(lambda t: 
-	GeomLib.forceZCoordinateToZ0(t[0], z0=t[1] / 2))
-sensors.drop(columns=['__TMP__'], inplace=True)
-
-# Let's select a subset of sensors to improve the readability of the 3D sketch.
-sensors = sensors.loc[ sensors[sensors.gid==4].index ]
+buildings = GeoDataFrameDemos5.cirSceneMasque1Corr()
+sensors = GeoDataFrame(data=[
+	{ 'gid': 1, 'geometry': Point(130, 60, 15) },
+	{ 'gid': 2, 'geometry': Point(100, 120, 10) },
+])
 ```
 
-The model being built, let's proceed to the ray casting:
+The model being built, let's proceed to the (panoptic) ray casting:
 
 ```python
-from pyvista import global_theme, Sphere
-from t4gpd.pyvista.geoProcesses.RayCasting3D import RayCasting3D
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+from t4gpd.pyvista.ToUnstructuredGrid import ToUnstructuredGrid
+from t4gpd.pyvista.geoProcesses.PanopticRayCasting3D import PanopticRayCasting3D
 
-shootingDirs = Sphere(
-	radius=1.0, center=(0, 0, 0), direction=(0, 0, 1),
-	theta_resolution=20, phi_resolution=20).cell_centers().points
-
-op = RayCasting3D([buildingsIn3d, ground], shootingDirs, viewpoints=sensors, 
-	normalFieldname='normal_vec', mc=None, maxRayLen=5.0, showHitPoints=False)
+nrays = 512
+op = PanopticRayCasting3D([buildings], maskPkFieldname=None, nrays=nrays,
+	method='geodeciel', maxRayLen=15, encode=True)
 rays = STGeoProcess(op, sensors).execute()
 ```
 
 In the above code snippet, we arbitrarily decided to:
 
-- limit the length of the rays to 5 m (parameter *maxRayLen*), 
+- limit the length of the rays to 15 m (parameter *maxRayLen*), 
 
-- cast only half of the rays (those whose scalar product with the normal to the faces - parameter *normalFieldname* - is strictly positive),
-
-- cast all the rays joining the sensor to the centroids of the sphere constructed by the instruction *shootingDirs = Sphere(...)* (the parameter *mc* - for Monte Carlo method - takes the value *None* or a value between 0 and 1 allowing to reduce the proportion of casted rays).
+- cast the rays using the 'geodeciel' strategy (the parameter *method* takes its value among 'icosahedron', 'pyvista', 'random', etc.).
 
 All that remains is to execute the following code snippet to produce a 3D representation:
 
 ```python
+from pyvista import global_theme
 from t4gpd.pyvista.ToUnstructuredGrid import ToUnstructuredGrid
 
 global_theme.background = 'grey'
 global_theme.axes.show = True
 
-scene = ToUnstructuredGrid([buildingsIn3d, ground, rays, sensors], 'height').run()
-scene.plot(scalars='height', cmap='gist_earth', show_edges=False, cpos='xy',
-	opacity=0.99, show_scalar_bar=True, point_size=15.0,
-	render_points_as_spheres=True, line_width=2.0)
+scene = ToUnstructuredGrid([buildings, sensors, rays], 'gid').run()
+scene.plot(show_edges=True, point_size=10.0, 
+	render_points_as_spheres=True, scalars='gid', 
+	cmap='gist_earth', screenshot='img/pyvista_panoptic_raycasting.png')
 ```
 
-![PyVista ray casting](img/pyvista_2.png)
+![PyVista panoptic ray casting](img/pyvista_panoptic_raycasting.png)
+
+### Oriented ray casting in 3D (version 0.4.0+)
+
+To be able to cast these rays, let's start by building a (small) 3D model and anchoring some sensors in its facades:
+
+```python
+from t4gpd.commons.GeomLib3D import GeomLib3D
+from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+from t4gpd.pyvista.geoProcesses.MoveSensorsAwayFromSurface import MoveSensorsAwayFromSurface
+
+# Let's generate a set of building footprints
+buildings = GeoDataFrameDemos5.cirSceneMasque1Corr()
+buildings['normal_vec'] = buildings.geometry.apply(lambda g: GeomLib3D.getFaceNormalVector(g))
+buildings.reset_index(inplace=True)
+buildings.rename(columns={'index': 'gid'}, inplace=True)
+
+# Let's anchor the sensors on the facades (at a distance of 0.1 m from the facades)
+sensors = buildings.copy(deep=True)
+#~ Keep only a few sensors
+sensors = sensors[ sensors.gid.isin([196, 226, 300]) ]
+sensors['main_dir'] = sensors.normal_vec
+sensors.reset_index(drop=True, inplace=True)
+
+sensors.geometry = sensors.geometry.apply(lambda g: GeomLib3D.centroid(g))
+op = MoveSensorsAwayFromSurface(sensors, 'normal_vec', dist=1e-1)
+sensors = STGeoProcess(op, sensors).run()
+```
+
+The model being built, let's proceed to the (oriented) ray casting:
+
+```python
+from t4gpd.pyvista.geoProcesses.OrientedRayCasting3D import OrientedRayCasting3D
+
+nrays = 32
+op = OrientedRayCasting3D([buildings], maskPkFieldname=None,
+	viewpoints=sensors, mainDirectionFieldname='main_dir',
+	openness=8, nrays=nrays, maxRayLen=50, encode=False)
+rays = STGeoProcess(op, sensors).execute()
+```
+
+In the above code snippet, we arbitrarily decided to:
+
+- limit the length of the 32 rays (parameter *nrays*) to 50 m (parameter *maxRayLen*), 
+
+- cast the rays around a given direction (provided by parameter *mainDirectionFieldname*) with an openness equal to 8° (parameter *openness*), 
+
+- cast the rays using a random strategy (in a Monte Carlo approach, random sampling of the surrounding space).
+
+All that remains is to execute the following code snippet to produce a 3D representation:
+
+```python
+from pyvista import Plotter
+from t4gpd.pyvista.ToUnstructuredGrid import ToUnstructuredGrid
+
+buildings.gid = 400
+
+scene = ToUnstructuredGrid([buildings, sensors, rays], 'gid').run()
+
+scene.plot(show_edges=True, point_size=10.0, 
+	render_points_as_spheres=True, scalars='gid', 
+	cmap='gist_earth', screenshot='img/pyvista_oriented_raycasting.png')
+```
+
+![PyVista oriented ray casting](img/pyvista_oriented_raycasting.png)
 
 ## Estimation of view factors using ray casting (version 0.4.0+)
 
