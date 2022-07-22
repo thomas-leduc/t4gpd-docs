@@ -233,3 +233,26 @@ Archive:  /tmp/myZipFile.zip
 ---------                     -------
    146266                     10 files
 ```
+
+### Writing Python for Salome files (version 0.4.0+)
+
+[SALOME](https://salome-platform.org/){target=_blank} is an open source platform for numerical simulation (multi-physics). It is a parametric shape modeler, which offers meshing, coupled simulation and visualization capabilities. To export your geometries in a python script that can be read by SALOME, proceed as follows:
+
+```python
+from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
+from t4gpd.io.SalomeWriter import SalomeWriter
+
+gdf = GeoDataFrameDemos5.cirSceneMasque1Corr()
+SalomeWriter(gdf, '/tmp/salome_script.py', withFaceIds=True, exportBrep=True).run()
+```
+
+You must then, in the Python console of SALOME, copy and paste the following instructions:
+
+```python
+with open('/tmp/salome_script.py') as f:
+    exec(compile(f.read(), '/tmp/salome_script.py', 'exec'))
+```
+
+To view the scene you may have to refresh the *Object Browser*.
+
+![Salome](img/salome.png)
