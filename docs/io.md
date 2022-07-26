@@ -243,7 +243,7 @@ from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
 from t4gpd.io.SalomeWriter import SalomeWriter
 
 gdf = GeoDataFrameDemos5.cirSceneMasque1Corr()
-SalomeWriter(gdf, '/tmp/salome_script.py', withFaceIds=True, exportBrep=True).run()
+SalomeWriter(gdf, '/tmp/salome_script.py', withFaceIds=True, exportBrep=False).run()
 ```
 
 You must then, in the Python console of SALOME, copy and paste the following instructions:
@@ -253,6 +253,33 @@ with open('/tmp/salome_script.py') as f:
     exec(compile(f.read(), '/tmp/salome_script.py', 'exec'))
 ```
 
-To view the scene you may have to refresh the *Object Browser*.
+To view the scene, you may have to refresh the *Object Browser*.
 
 ![Salome](img/salome.png)
+
+### Writing Python for Salome files (2) (version 0.4.0+)
+
+t4gpd offers a second method of interfacing to SALOME that combines the geometry export process with an extrusion process of building footprints directly into SALOME. To implement it, proceed as follows (be careful to prepare your input dataset):
+
+```python
+from t4gpd.commons.GeomLib import GeomLib
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.io.SalomeWriterAndExtruder import SalomeWriterAndExtruder
+
+gdf = GeoDataFrameDemos.ensaNantesBuildings()
+gdf.geometry = gdf.geometry.apply(lambda g: GeomLib.forceZCoordinateToZ0(g, z0=0))
+gdf.HAUTEUR.fillna(0, inplace=True)
+SalomeWriterAndExtruder(gdf, '/tmp/salome_script.py', elevationFieldname='HAUTEUR',
+	withFaceIds=False, exportBrep=True).run()
+```
+
+As before, you must then, in the Python console of SALOME, copy and paste the following instructions:
+
+```python
+with open('/tmp/salome_script.py') as f:
+    exec(compile(f.read(), '/tmp/salome_script.py', 'exec'))
+```
+
+To view the scene, you may need to refresh the *object browser*.
+
+![Salome](img/salome2.png)
