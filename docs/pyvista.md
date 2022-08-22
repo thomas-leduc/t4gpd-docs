@@ -288,7 +288,7 @@ The model being built, let's proceed to the SVF estimation:
 ```python
 from t4gpd.pyvista.geoProcesses.SVF3D import SVF3D
 
-op = SVF3D([buildings], nrays=5000, method='random')
+op = SVF3D([buildings], nrays=5000, method='MonteCarlo')
 result = STGeoProcess(op, sensors).execute()
 ```
 
