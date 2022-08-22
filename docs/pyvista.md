@@ -256,3 +256,59 @@ plotter.show()
 ```
 
 ![Estimation of View Factors](img/pyvista_3.png)
+
+## Estimation of Sky View Factors using ray casting (version 0.4.0+)
+
+The aim here is to estimate and represent the Sky View Factors associated with sensors placed on the front of buildings. Let's start by loading the urban model and by locating the sensors on the building facades.
+
+```python
+from t4gpd.commons.GeomLib3D import GeomLib3D
+from t4gpd.demos.GeoDataFrameDemos5 import GeoDataFrameDemos5
+from t4gpd.morph.geoProcesses.STGeoProcess import STGeoProcess
+from t4gpd.pyvista.geoProcesses.MoveSensorsAwayFromSurface import MoveSensorsAwayFromSurface
+
+buildings = GeoDataFrameDemos5.cirSceneMasque1Corr()
+buildings['normal_vec'] = buildings.geometry.apply(lambda g: GeomLib3D.getFaceNormalVector(g))
+buildings.reset_index(inplace=True)
+buildings.rename(columns={'index': 'gid'}, inplace=True)
+
+sensors = buildings.copy(deep=True)
+# WE KEEP ONLY A FEW SENSORS
+sensors = sensors[ sensors.index % 90 == 0 ]
+sensors['main_dir'] = sensors.normal_vec
+sensors.reset_index(drop=True, inplace=True)
+
+sensors.geometry = sensors.geometry.apply(lambda g: GeomLib3D.centroid(g))
+op = MoveSensorsAwayFromSurface(sensors, 'normal_vec', dist=0.1)
+sensors = STGeoProcess(op, sensors).run()
+```
+
+The model being built, let's proceed to the SVF estimation:
+
+```python
+from t4gpd.pyvista.geoProcesses.SVF3D import SVF3D
+
+op = SVF3D([buildings], nrays=5000, method='random')
+result = STGeoProcess(op, sensors).execute()
+```
+
+It remains then to display the results:
+
+```python
+from pyvista import Plotter
+from t4gpd.pyvista.ToUnstructuredGrid import ToUnstructuredGrid
+
+scene = ToUnstructuredGrid([buildings, sensors, result], fieldname='svf').run()
+
+centroids = result.geometry.apply(lambda g: g.coords[0]).to_list()
+labels = result.svf.apply(lambda v: f'{100 * v:.2f}%').to_list()
+
+plotter = Plotter(window_size=(1000, 800))
+plotter.add_mesh(scene, scalars='svf', cmap='gist_earth',
+    show_edges=False, show_scalar_bar=True, point_size=30.0,
+    render_points_as_spheres=True, line_width=2.0, color='k')
+plotter.add_point_labels(centroids, labels, font_size=20, point_size=1e-3)
+plotter.show()
+```
+
+![Estimation of Sky View Factors](img/pyvista_4.png)
