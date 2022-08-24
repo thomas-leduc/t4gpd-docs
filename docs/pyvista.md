@@ -75,7 +75,7 @@ In the above code snippet, we arbitrarily decided to:
 
 - limit the length of the rays to 15 m (parameter *maxRayLen*), 
 
-- cast the rays using the 'geodeciel' strategy (the parameter *method* takes its value among 'icosahedron', 'pyvista', 'random', etc.).
+- cast the rays using the 'geodeciel' strategy (the parameter *method* takes its value among 'icosahedron', 'pyvista', 'MonteCarlo', etc.).
 
 All that remains is to execute the following code snippet to produce a 3D representation:
 
