@@ -3,7 +3,7 @@
 ## How to install *t4gpd*
 
 Please visit [this web
-page](https://github.com/crenau/t4gpd){target=_blank}.
+page](https://pypi.org/project/t4gpd/){target=_blank}.
 
 ## What is the installed version number of *t4gpd*? 
 
@@ -12,6 +12,10 @@ import t4gpd
 
 print(t4gpd.__version__)
 ```
+
+## Where can I find the sources of t4gpd?
+
+The official sources of the t4gpd project are available on [this page](https://github.com/thomas-leduc/t4gpd).
 
 ## How to load pre-recorded demos datasets
 
