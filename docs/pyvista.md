@@ -174,6 +174,7 @@ from t4gpd.pyvista.geoProcesses.MoveSensorsAwayFromSurface import MoveSensorsAwa
 
 # Let's load a pre-registered 3D dataset
 buildings = GeoDataFrameDemos5.cirSceneMasque1Corr()
+buildings['normal_vec'] = buildings.geometry.apply(lambda g: GeomLib3D.getFaceNormalVector(g))
 buildings['height'] = buildings.geometry.apply(lambda g: GeomLib3D.centroid(g).z)
 
 # Let's extract only the building surfaces
