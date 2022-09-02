@@ -260,6 +260,8 @@ plotter.show()
 
 ## Estimation of Sky View Factors using ray casting (version 0.4.0+)
 
+<span style="color:red">Warning: in version 0.4.1 of the package, this feature does not work properly on Windows where the recovery of face identifiers when raycasting via PyVista is not properly ensured. A new version - optimized and debugged - is currently under development.</span>
+
 The aim here is to estimate and represent the Sky View Factors associated with sensors placed on the front of buildings. Let's start by loading the urban model and by locating the sensors on the building facades.
 
 ```python
