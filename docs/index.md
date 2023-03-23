@@ -1,8 +1,8 @@
 # Welcome to *The t4gpd User Manual*
 ```
 By: Thomas Leduc, AAU-CRENAU
-Date: Nov. 2022
-Version: 0.5.0
+Date: Mar. 2023
+Version: 0.6.0
 ```
 
 **t4gpd** is a set of tools focused on spatial analysis. Developed in
