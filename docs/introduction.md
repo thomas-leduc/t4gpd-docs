@@ -5,6 +5,10 @@
 Please visit [this web
 page](https://pypi.org/project/t4gpd/){target=_blank}.
 
+## Is there a Dockerized version of t4gpd?
+
+Yes, you can find more information [here](https://github.com/thomas-leduc/t4gpd-docker/).
+
 ## What is the installed version number of *t4gpd*? 
 
 ```python
