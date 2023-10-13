@@ -169,6 +169,42 @@ plt.savefig('img/demo7.png')
 
 ![Demo7](img/demo7.png)
 
+### Adaptive meshing of a region of interest
+
+Adaptive gridding is a well-known spatial sampling technique. To adaptively grid a study space, *t4gpd* provides the geoprocessing name *t4gpd.morph.STGrid*.
+
+> `STAdaptativeGrid(gdf, dx, thresholds=None, indoor=False, intoPoint=False, encode=True)`
+
+If you want to adaptively grid the region of interest proceed as follows:
+
+```python
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.morph.STAdaptativeGrid import STAdaptativeGrid
+
+buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
+
+grid = STAdaptativeGrid(buildings, dx=[32, 16, 8, 4], indoor=False, intoPoint=False).run()
+```
+
+To map the resulting grid via matplotlib, proceed as follows:
+
+```python
+import matplotlib.pyplot as plt
+from shapely.geometry import box
+
+minx, miny, maxx, maxy = box(*buildings.total_bounds).buffer(-50).bounds
+
+_, basemap = plt.subplots(figsize=(0.25*8.26, 0.25*8.26))
+buildings.plot(ax=basemap, color='grey', edgecolor='white', linewidth=0.5)
+grid.boundary.plot(ax=basemap, color='red', linewidth=0.5)
+
+basemap.axis([minx, maxx, miny, maxy])
+plt.axis('off')
+plt.savefig('img/demo8.png')
+```
+
+![Demo8](img/demo8.png)
+
 ### How to build a Triangulated irregular network (TIN)
 
 The mesh we will produce here assumes that you have installed the
@@ -203,10 +239,10 @@ building.plot(ax=basemap, color='grey', edgecolor='white', linewidth=0.5)
 tin.boundary.plot(ax=basemap, color='red', linewidth=0.25)
 
 plt.axis('off')
-plt.savefig('img/demo8.png')
+plt.savefig('img/demo9.png')
 ```
 
-![Demo8](img/demo8.png)
+![Demo9](img/demo9.png)
 
 ## How to snap points on line?
 
