@@ -201,7 +201,7 @@ or GeoDataFrame in a single .zip file on disk. The following
 instructions will create an archive on disk with the name
 */tmp/myZipFile.zip*:
 
-```
+```python
 from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
 from t4gpd.io.ZipWriter import ZipWriter
 
@@ -232,6 +232,37 @@ Archive:  /tmp/myZipFile.zip
         5  2021-10-08 10:51   myZipFile/roads.cpg
 ---------                     -------
    146266                     10 files
+```
+
+### Writing GPKG files
+
+The *t4gpd.io.GpkgWriter* class allows to encapsulate several DataFrame
+or GeoDataFrame in a single .gpkg file on disk. The following
+instructions will create an archive on disk with the name
+*/tmp/myGpkgFile.gpkg*:
+
+```python
+from t4gpd.demos.GeoDataFrameDemos import GeoDataFrameDemos
+from t4gpd.io.GpkgWriter import GpkgWriter
+
+buildings = GeoDataFrameDemos.districtRoyaleInNantesBuildings()
+roads = GeoDataFrameDemos.districtRoyaleInNantesRoads()
+mapOfDf = {'buildings': buildings, 'roads': roads}
+GpkgWriter(mapOfDf, '/tmp/myGpkgFile.gpkg').run()
+```
+
+The contents of this archive */tmp/myGpkgFile.gpkg* can be listed using the following instructions:
+
+```python
+from fiona import listlayers
+listlayers("/tmp/myGpkgFile.gpkg")
+```
+
+The contents of this archive */tmp/myGpkgFile.gpkg* can be re-read using the following instructions:
+
+```python
+from geopandas import read_file
+roads = read_file("/tmp/myGpkgFile.gpkg", layer="roads")
 ```
 
 ### Writing Python for Salome files (version 0.4.0+)
