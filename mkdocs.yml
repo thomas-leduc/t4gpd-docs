@@ -39,6 +39,7 @@ nav:
         - 'Interfacing with QGIS': 'pyqgis.md'
         - 'Interfacing with PyVista': 'pyvista.md'
         - 'Deployment of virtual sensors': 'sensors.md'
+        - 'Processing raster data': 'raster.md'
         - 'Morphometry': 'morphometry.md'
         - 'Urban layouts analysis': 'layout.md'
         - 'Urban fabrics analysis': 'fabrics.md'

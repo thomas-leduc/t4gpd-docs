@@ -171,7 +171,7 @@ plt.savefig('img/demo7.png')
 
 ### Adaptive meshing of a region of interest
 
-Adaptive gridding is a well-known spatial sampling technique. To adaptively grid a study space, *t4gpd* provides the geoprocessing name *t4gpd.morph.STGrid*.
+Adaptive gridding is a well-known spatial sampling technique. To adaptively grid a study space, *t4gpd* provides the geoprocessing name *t4gpd.morph.STAdaptativeGrid*.
 
 > `STAdaptativeGrid(gdf, dx, thresholds=None, indoor=False, intoPoint=False, encode=True)`
 
