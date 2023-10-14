@@ -82,6 +82,20 @@ myGdf = MshReader('/tmp/buildings.msh', bbox=buildings.total_bounds, crs='EPSG:2
 
 The resulting object named *myGdf* is an instance of GeoDataFrame.
 
+### Reading MED files
+
+To load a geometry file stored in the .MED file format (.med
+extension), proceed as follows:
+
+```python
+from t4gpd.io.MedReader import MedReader
+
+myGdf = MedReader('/tmp/buildings.med', crs='EPSG:2154').run()
+```
+
+The resulting object named *myGdf* is an instance of GeoDataFrame.
+
+
 ## Writing files
 
 ### Preamble: How to extrude 2D geometry to produce a closed volume
